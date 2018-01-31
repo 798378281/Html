@@ -1,0 +1,49 @@
+*{
+	margin: 0;
+	padding: 0;
+	border: none;
+	list-style-type: none;
+	text-decoration: none;
+}
+
+.container{
+	width: 200px;
+	height: 200px;
+	border: 1px solid black;
+	margin: 300px auto 0 auto;
+	position: relative;
+	overflow: hidden;
+	border-radius: 100px;
+}
+
+.one{
+	width: 600px;
+	height: 100px;
+	position: absolute;
+	bottom: -5px;
+	background-size: 100% 100%;
+	background-image: url('../img/jr_xia.png');
+	animation: move-left 1s infinite linear alternate;
+}
+.two{
+	width: 600px;
+	height: 100px;
+	position: absolute;
+	bottom: -5px;
+	background-size: 100% 100%;
+	background-image: url('../img/jr_shang.png');
+	animation: move-right 2s infinite linear alternate;
+}
+
+@keyframes move-left
+{
+	0%   {left:-100px;}
+	50%  {left:-180px;}
+	100%  {left:-280px;}
+}
+@keyframes move-right
+{
+	0%   {left:-280px;}
+	50%  {left:-180px;}
+	100%  {left:-100px;}
+}
