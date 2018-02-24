@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>递归的解析</title>
+</head>
+<body>
+  <script type="text/javascript">
+    console.log(func1(100));
+    console.log(func2(10));
+    // 递归求和
+    function func1(n) {
+      if(n>0){
+        return n+func1(n-1);
+      }
+      else{
+        return 0;
+      }
+    }
+    //递归阶乘
+    function func2(n) {
+      if(n===1){
+        return 1;
+      }
+      else{
+        return n*func2(n-1);
+      }
+    }
+
+    // 递归的特性
+    // 1.自己调用自己
+    // 2.判断条件
+
+    // 数组递归生成树
+    var arr=[
+    {pid:0,id:1,name:'Alex'},
+    {pid:0,id:2,name:'Jack'},
+    {pid:2,id:3,name:'Tom'},
+    {pid:1,id:4,name:'Perry'},
+    {pid:4,id:5,name:'Job'},
+    ];
+    function func3(arr,pid,temp) {
+      for(var i=0;i<arr.length;i++){
+        if(arr[i].pid == pid){
+          console.log(arr[i]);
+          var o = {
+            name:arr[i].name,
+            id:arr[i].id,
+            children:[]
+          };
+          func3(arr,arr[i].id,o.children);
+          temp.push(o);
+        }
+      }
+    }
+    var a=[];
+    func3(arr,0,a);
+    console.log(a);
+  </script>
+</body>
+</html>
