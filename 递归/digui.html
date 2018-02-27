@@ -2,8 +2,10 @@
 <html>
 <head>
   <title>递归的解析</title>
+  <script type="text/javascript" src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
 </head>
 <body>
+  <div id="Body"></div>
   <script type="text/javascript">
     console.log(func1(100));
     console.log(func2(10));
@@ -52,9 +54,30 @@
         }
       }
     }
-    var a=[];
-    func3(arr,0,a);
-    console.log(a);
+    
+
+    // 利用递归生成HTML节点树
+    function func4 (arr,str) {
+      str+=`<ul>`;
+      for(var i=0;i<arr.length;i++){
+        str+=`<li>${arr[i].name}`;
+        if(arr[i].children.length>0){
+          func4(arr[i].children,str);
+        }
+        str+=`</li>`;
+      }
+      str+=`</ul>`;
+      console.log(str);
+    }
+    $(document).ready(function(){
+      var a=[];
+      func3(arr,0,a);
+      console.log(a);
+      var html='';
+      func4(a,html);
+      console.log(html);
+      $('body').html(html);
+    });
   </script>
 </body>
 </html>
