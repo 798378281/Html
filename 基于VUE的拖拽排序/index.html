@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>拖拽排序</title>
+  <script type="text/javascript" src="../vue.js"></script>
+  <style type="text/css">
+    .item {
+      width: 400px;
+      height: 50px;
+      line-height: 50px;
+      box-sizing: border-box;
+      padding-left: 20px;
+      background-color: #f3f3f3;
+    }
+    .item:nth-child(2n) {
+      background-color: #ccc;
+      border-bottom: 1px dotted black;
+      line-height: 50px
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <div id="box">
+      <div
+        class="item"
+        draggable
+        @dragstart="onDragstrat(item, $event)"
+        @dragend="onDragend(item, $event)"
+        v-for="item in list">
+        {{item.content}}
+      </div>
+    </div>
+  </div>
+  <script type="text/javascript">
+    new Vue({
+      el: '#app',
+      data () {
+        return {
+          list: [
+            { id: '1', content: '1', order: 1},
+            { id: '2', content: '2', order: 2},
+            { id: '3', content: '3', order: 3},
+            { id: '4', content: '4', order: 4},
+            { id: '5', content: '5', order: 5},
+            { id: '6', content: '6', order: 6},
+            { id: '7', content: '7', order: 7}
+          ],
+          dragItem: null
+        }
+      },
+      computed: {},
+      methods: {
+        onDragstrat(item, ev) {
+          console.log('开始')
+          this.dragItem = item
+        },
+        onDragend(item, ev) {
+          console.log('结束')
+          this.dragItem = null
+        }
+      }
+    })
+  </script>
+</body>
+</html>

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>简单的拖拽例子</title>
+    <script src="./vue.min.js"></script>
+    <style>
+      .item {
+        width: 400px;
+        height: 50px;
+        line-height: 50px;
+        background: #f2f2f2;
+      }
+
+      .item:nth-child(2n) {
+        background: #ccc
+      }
+
+      .animation-name-enter-active, .animation-name-leave-active {
+        transition:  all ease 0.3s;
+      }
+      .animation-name-enter, .animation-name-leave-to {
+        opacity: 0;
+      }
+      
+      .animation-name-leave-active {
+        position: absolute;
+      }
+      .animation-name-move {
+        transition:  all ease 0.3s;
+      }
+     </style>
+  </head>
+  <body>
+    <div id="root">
+      <div 
+        class="box"
+        ref="box"
+        @dragover="onDragover"  
+        @drop="onDrop"
+      >
+        <transition-group name="animation-name">
+          <div 
+            class="item" 
+            v-for="item in newList" 
+            :key="item.id"
+            draggable
+            @dragstart="onItemDragstart(item, $event)"
+            @dragend="onItemDragend(item, $event)"
+            >
+            内容{{item.content}}
+          </div>
+        </transition-group>
+      </div>
+    </div>
+    <script>
+      const ITEM_HEIGHT = 50
+      new Vue({
+        el: '#root',
+        data () {
+          return {
+            data: [
+              { id: '2', content: '2', order: 2},
+              { id: '3', content: '3', order: 3},
+              { id: '1', content: '1', order: 1},
+              { id: '4', content: '4', order: 4},
+              { id: '5', content: '5', order: 5},
+              { id: '6', content: '6', order: 6},
+              { id: '7', content: '7', order: 7},
+              { id: '8', content: '8', order: 8},
+              { id: '9', content: '9', order: 9},
+            ],
+            draggingItem: null,
+            newPositionIndex: -1
+          }
+        },
+
+        computed: {
+          orderList () {
+            let result = this.clone(this.data)
+            result.sort((a, b) => {
+              return a.order - b.order
+            })
+            return result 
+          },
+
+          newList () {
+            let result = this.clone(this.orderList)
+            if (this.newPositionIndex > -1) {
+              result = result.filter(item => item.id !== this.draggingItem.id)
+              result.splice(this.newPositionIndex, 0, this.draggingItem)
+            }
+            return result
+          }
+        },
+
+        methods: {
+          onItemDragstart (item, ev) {
+            this.draggingItem = item
+          },
+
+          onItemDragend (item, ev) {
+            this.draggingItem = null
+            this.newPositionIndex = -1
+          },
+
+          onDragover (ev) {
+            ev.preventDefault()
+            let {offsetY} = this.getEventOffsetByElement(ev, this.$refs.box)
+
+            let index = parseInt(offsetY / ITEM_HEIGHT)
+            this.newPositionIndex = index
+          },
+
+          onDrop (ev) {
+            let newList = this.newList.map((item, index) => {
+              item.order = index + 1
+              return item
+            })
+            this.data = newList
+          },
+
+          getEventOffsetByElement (ev, element) {
+            let {pageX, pageY} = ev
+            let {left, top} = element.getBoundingClientRect()
+            return {
+              offsetX: pageX - left,
+              offsetY: pageY - top
+            }
+          },
+
+          clone (obj) {
+            return JSON.parse(JSON.stringify(obj))
+          }
+        }
+      })
+    </script>
+  </body>
+</html>
