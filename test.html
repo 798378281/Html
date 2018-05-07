@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>测试</title>
+</head>
+<body>
+
+<script type="text/javascript">
+   fetch('http://52.83.132.163:8082/v1/photovoltaic/user/login', {
+        body: JSON.stringify({name: 'hong'}), // must match 'Content-Type' header
+        headers: {
+          'content-type': 'application/json'
+        },
+        method: 'POST'
+  }) 
+</script>
+</body>
+</html>
