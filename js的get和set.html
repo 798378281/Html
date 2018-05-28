@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>JS的GET/SET</title>
+</head>
+<body>
+    <script type="text/javascript">
+        var person = {
+            _name: '',
+            _age: 10,
+
+            get age () {
+                console.log('触发了get方法')
+                return this._age
+            },
+
+            set age (val) {
+                console.log('触发set方法')
+                this._age = val
+            }
+        }
+        person.age = 12
+        console.log(person.age)
+    </script>
+</body>
+</html>
